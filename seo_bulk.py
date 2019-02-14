@@ -23,26 +23,26 @@ if __name__ == "__main__":
     for i in list(ready.index):
         content = ready.loc[i]['Text ready to deploy']        
         #SEO Tool columns
-        try:
-            lines = [line.strip() for line in content.splitlines() if len(line) > 0]
-            
-            title = lines[0].split(':')[1].strip()
-            description = lines[1].split(':')[1].strip()
-            keywords = '${makeName} ${modelName} Gebrauchtwagen, heycar, Gebrauchtwagen kaufen'
-            H1 = '# Wir haben ~~${resultCount}~~<br/>${makeName} ${modelName} für dich gefunden.'
-            locale = 'de'
-            page_type = 'CLP'
-            path = get_path(ready.loc[i]['Automodell + "gebraucht"'])
-            H2 = lines[2]
-            H3 = lines[3]
-            seo_content = ''
-            for cont in lines[4:]:
-                seo_content += cont
-            
-            row = [title, description, keywords, H1, locale, page_type, path, H2, H3, seo_content]
-            all_rows.append(row)
-        except:
-            print('something wrong with the content. Might not be in the right format')
+        # try:
+        lines = [line.strip() for line in content.splitlines()]
+        
+        title = lines[0].split(':')[1].strip()
+        description = lines[1].split(':')[1].strip()
+        keywords = '${makeName} ${modelName} Gebrauchtwagen, heycar, Gebrauchtwagen kaufen'
+        H1 = '# Wir haben ~~${resultCount}~~<br/>${makeName} ${modelName} für dich gefunden.'
+        locale = 'de'
+        page_type = 'CLP'
+        path = get_path(ready.loc[i]['Automodell + "gebraucht"'])
+        H2 = lines[3] + '\n'
+        H3 = lines[4] + '\n'
+        seo_content = ''
+        for cont in lines[6:]:
+            seo_content += cont + '\n'
+        
+        row = [title, description, keywords, H1, locale, page_type, path, H2, H3, seo_content]
+        all_rows.append(row)
+        # except:
+        #     print('something wrong with the content. Might not be in the right format')
     df2 = pd.DataFrame(np.array(all_rows), 
     columns= ['Title', 'Description', 'Keywords', 'H1', 'Locale', 'Page type', 'Path', 'H2', 'H3', 'Content'])
 
